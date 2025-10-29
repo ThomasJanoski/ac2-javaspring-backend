@@ -94,6 +94,9 @@ public class ProjetoServiceImpl implements ProjetoService {
     @Transactional
     public void delete(Integer id) {
         Projeto projeto = getById(id);
+        if (projeto.getFuncionarios() != null && !projeto.getFuncionarios().isEmpty()) {
+            throw new RegraNegocioException("Não pode deletar projeto com funcionários vinculados.");
+        }
         projetoRepository.delete(projeto);
     }
 
